@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User App</title>
+</head>
+<body style="margin: 0;  background-color: rgb(50, 43, 43); color: white;">
+
+    <div style="display: flex; align-items: flex-start; padding: 40px; gap: 40px;">
+
+        <!-- LEFT SIDE : SEND DATA -->
+        <div style="width: 40%; background-color: rgb(68, 60, 60); padding: 20px; border-radius: 10px;">
+            <h2>Send User Data</h2>
+
+            <div style="margin: 15px;">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" style="width: 100%; padding: 8px; margin-top: 5px;margin-right: 30px;">
+            </div>
+
+            <div style="margin: 15px;">
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" style="width: 100%; padding: 8px; margin-top: 5px;">
+            </div>
+
+            <button id="submit_user" style="padding: 10px 20px; cursor: pointer; margin-left: 15px;">Submit</button>
+        </div>
+
+        <!-- RIGHT SIDE : GET DATA -->
+        <div style="width: 50%; background-color: rgb(68, 60, 60); padding: 20px; border-radius: 10px;">
+            <h2>Get All Users</h2>
+
+            <button id="get-data-button" style="padding: 10px 20px; margin-bottom: 20px; cursor: pointer;">
+                Get All Users
+            </button>
+
+            <table border="1" style="width: 100%; border-collapse: collapse; text-align: center; color: white;">
+                <thead>
+                    <tr>
+                        <th style="padding: 10px;">Name</th>
+                        <th style="padding: 10px;">Password</th>
+                    </tr>
+                </thead>
+                <tbody id="table_row">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
