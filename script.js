@@ -2,6 +2,8 @@ const getData = document.getElementById("get-data-button");
 const submitUser = document.getElementById("submit_user");
 const tableRow = document.getElementById("table_row");
 
+
+
 async function createUser() {
     try {
         const nameInput = document.getElementById("name");
