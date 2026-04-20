@@ -1,14 +1,14 @@
-import HeaderDiv from '../user/header/headerDiv';
+import HeaderDiv from "../user/header/HeaderDiv";
+import FooterDiv from "../user/footer/FooterDiv";
 
 export default function AppShell({ children }) {
   return (
-    
-    <div className="flex min-h-screen flex-col">
+    <div className="app-shell">
       <HeaderDiv />
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className="app-main">
         {children}
       </main>
-      {/* <FooterDiv /> */}
+      <FooterDiv />
     </div>
   );
 }

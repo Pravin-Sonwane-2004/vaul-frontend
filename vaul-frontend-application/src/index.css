@@ -1,6 +1,56 @@
+:root {
+  color: #22313d;
+  background: #7cb6e8;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  --background: #5d7283;
+  --text-color: #22313d;
+  --muted-text: #566575;
+  --surface-bg: #fafaf4;
+  --border-color: #c8d3dc;
+  --header-bg: #243544;
+  --header-text: #eef3f7;
+  --header-muted: #b8c4cf;
+  --header-border: #3d5265;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  background-color: #262626;
-  color: #e0e0e0;
-  font-family: Arial, sans-serif;
+  min-width: 320px;
+  color: var(--text-color);
+  background: var(--background);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+#root,
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  padding-bottom: 2rem;
 }

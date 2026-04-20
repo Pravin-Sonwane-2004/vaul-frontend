@@ -1,7 +1,13 @@
-import HeaderDiv from "./user/header/headerDiv";
+import { Route, Routes } from "react-router-dom";
+import Home from "./user/hompage/Home";
 
 function Router() {
-  return 
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<Home />} />
+    </Routes>
+  );
 }
 
 export default Router;

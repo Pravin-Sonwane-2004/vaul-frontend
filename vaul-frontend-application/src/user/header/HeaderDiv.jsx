@@ -1,35 +1,40 @@
 import "./headerDiv.css";
 import logo from "../../assets/images/Bank-Logo.png";
 
+const navItems = [
+  { label: "Home", href: "#home" },
+  {label: "All-Users", href: "#get-all-users"},
+  { label: "Accounts", href: "#accounts" },
+  { label: "Transfers", href: "#transfers" },
+  // { label: "Cards", href: "#cards" },
+  { label: "Loans", href: "#loans" },
+  { label: "Features", href: "#features" },
+  // { label: "About", href: "#about" },
+  // { label: "Contact", href: "#contact" },
+];
+
 export default function HeaderDiv() {
   return (
-    <header className="header-parent">
+    <header className="header">
+      <a className="brand" href="#home">
+        <img src={logo} alt="Vault logo" className="logo" />
+        <strong>Vault</strong>
+      </a>
 
-      {/* LEFT: Logo + Name */}
-      <div className="logo-section">
-        <img src={logo} alt="Bank Logo" className="logo" />
-        <h1>Vault</h1>
-      </div>
-
-      {/* CENTER: Navigation */}
       <nav>
         <ul className="nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Users</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          {navItems.map((item) => (
+            <li key={item.label}>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      {/* RIGHT: Profile */}
-      <div className="profile-section">
-        <img 
-          src="https://via.placeholder.com/40" 
-          alt="Profile" 
-          className="profile"
-        />
+      <div className="auth-links">
+        <a href="#login">Login</a>
+        <a className="primary-link" href="#register">Register</a>
       </div>
-
     </header>
   );
 }
