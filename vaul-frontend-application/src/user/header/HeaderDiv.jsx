@@ -1,39 +1,36 @@
+import { Link } from "react-router-dom";
 import "./headerDiv.css";
 import logo from "../../assets/images/Bank-Logo.png";
 
 const navItems = [
-  { label: "Home", href: "#home" },
-  {label: "All-Users", href: "#get-all-users"},
-  { label: "Accounts", href: "#accounts" },
-  { label: "Transfers", href: "#transfers" },
-  // { label: "Cards", href: "#cards" },
-  { label: "Loans", href: "#loans" },
-  { label: "Features", href: "#features" },
-  // { label: "About", href: "#about" },
-  // { label: "Contact", href: "#contact" },
+  { label: "Home", path: "/" },
+  { label: "All Users", path: "/users" },
+  { label: "Accounts", path: "/accounts" },
 ];
 
 export default function HeaderDiv() {
   return (
     <header className="header">
-      <a className="brand" href="#home">
+      <Link className="brand" to="/">
         <img src={logo} alt="Vault logo" className="logo" />
         <strong>Vault</strong>
-      </a>
+      </Link>
 
       <nav>
         <ul className="nav-links">
           {navItems.map((item) => (
             <li key={item.label}>
-              <a href={item.href}>{item.label}</a>
+              <Link to={item.path}>{item.label}</Link>
             </li>
           ))}
         </ul>
       </nav>
 
       <div className="auth-links">
-        <a href="#login">Login</a>
-        <a className="primary-link" href="#register">Register</a>
+        <Link to="/login">Login</Link>
+        <Link className="primary-link" to="/register">
+          Register
+        </Link>
       </div>
     </header>
   );
