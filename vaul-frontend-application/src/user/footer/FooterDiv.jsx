@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./footerDiv.css";
 
 export default function FooterDiv() {
@@ -9,9 +10,9 @@ export default function FooterDiv() {
       </div>
 
       <div className="footer-links">
-        <a href="#home">Home</a>
-        <a href="#features">Features</a>
-        <a href="#contact">Contact</a>
+        <Link to="/">Home</Link>
+        <Link to="/features">Features</Link>
+        <Link to="/contact">Contact</Link>
       </div>
     </footer>
   );

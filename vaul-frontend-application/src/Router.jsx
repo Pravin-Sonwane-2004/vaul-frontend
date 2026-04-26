@@ -3,7 +3,10 @@ import MainLayout from "./reactsetup/MainLayout";
 import Home from "./user/hompage/Home";
 import Register from "./user/public/Register";
 // import AllUsers from "./user/public/AllUsers";
-// import Login from "./user/public/Login";
+import Login from "./user/public/Login";
+import Contact from "./user/public/contact";
+import Features from "./user/public/Features";
+
 
 function Router() {
   return (
@@ -13,10 +16,12 @@ function Router() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/users" element={<AllUsers />} /> */}
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/features" element={<Features />} />
       </Route>
+      {/* Without Layout here will not be any layout */}
 
-      {/* Without Layout */}
-      {/* <Route path="/login" element={<Login />} /> */}
     </Routes>
   );
 }
