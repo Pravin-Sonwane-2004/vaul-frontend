@@ -19,6 +19,7 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/features" element={<Features />} />
+        <Route path="/home" element={<Home/>} />
       </Route>
       {/* Without Layout here will not be any layout */}
 

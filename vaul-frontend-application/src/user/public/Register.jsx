@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../api/service";
+
 
 export default function Register() {
-   
-  const nev = useNavigate();
+  const navigate = useNavigate(); // Standard naming convention
 
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +13,10 @@ export default function Register() {
     confirmPassword: "",
     phone: ""
   });
+
+  // Added states for better UX
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,78 +27,93 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
 
+    // 1. Validation
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
-    await sendData();
+    setIsLoading(true);
+
+    // 2. API Call with Try/Catch
+    try {
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password
+      };
+
+      // NOTE: Make sure API_ENDPOINTS.BASE_URL is a variable/import, not a string literal
+      const response = await fetch(API_ENDPOINTS.REGISTER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+        throw new Error("Registration failed. Please try again.");
+      }
+
+      alert("User registered successfully");
+      navigate("/login");
+      
+    } catch (err) {
+      setError(err.message || "A network error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  async function sendData() {
-    const userData = {
-      name: formData.name,
-      email: formData.email,
-        phone: formData.phone,
-      password: formData.password
-    };
-
-    const response = await fetch("API_ENDPOINTS.BASE_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(userData)
-    });
-
-    if (!response.ok) {
-      alert("Registration failed");
-      return;
-    }
-
-    alert("User registered successfully");
-    nev("/login");
-  }
-
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <strong style={{ textAlign: "center", fontSize: "30px" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "10px" }}>
+      <h2 style={{ textAlign: "center", fontSize: "30px", marginBottom: "20px" }}>
         Register Page
-      </strong>
+      </h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name: </label>
-          <input name="name" value={formData.name} onChange={handleChange} />
+      {/* Replaced invalid <th>/<tr> tags with a clean CSS flexbox column layout */}
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", width: "300px" }}>
+        
+        {/* Inline Error Display */}
+        {error && <div style={{ color: "red", textAlign: "center", fontWeight: "bold" }}>{error}</div>}
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="name">Name: </label>
+          <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} required />
         </div>
 
-        <div>
-          <label>Email: </label>
-          <input name="email" value={formData.email} onChange={handleChange} />
-        </div>
-      
-         <div>
-            <label htmlFor="">Phone No: </label>
-               <input
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-               />
-         </div>
-
-        <div>
-          <label>Password: </label>
-          <input name="password" type="password" value={formData.password} onChange={handleChange} />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="email">Email: </label>
+          {/* Changed to type="email" for built-in browser validation */}
+          <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
         </div>
 
-        <div>
-          <label>Confirm Password: </label>
-          <input name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="phone">Phone No: </label>
+          <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} required />
         </div>
 
-        <button type="submit">Register</button>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="password">Password: </label>
+          <input id="password" name="password" type="password" value={formData.password} onChange={handleChange} required />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="confirmPassword">Confirm Password: </label>
+          <input id="confirmPassword" name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} required />
+        </div>
+
+        <button 
+          type="submit" 
+          disabled={isLoading}
+          style={{ marginTop: "10px", width: "90px" ,padding: "4px", cursor: isLoading ? "not-allowed" : "pointer" , borderRadius : "40px", alignItems:"center", textAlign:"center", marginLeft:"100px"}}
+        >
+          {isLoading ? "Registering..." : "Register"}
+        </button>
       </form>
     </div>
   );

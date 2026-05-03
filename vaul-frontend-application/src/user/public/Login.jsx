@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../api/service";
 
 export default function Login() {
-
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
   });
+
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setLoginData({
@@ -19,12 +22,11 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await loginUser();
-  };
+    setError("");
+    setIsLoading(true);
 
-  async function loginUser() {
     try {
-      const response = await fetch(API_ENDPOINTS.LOGIN , {
+      const response = await fetch(API_ENDPOINTS.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -33,54 +35,64 @@ export default function Login() {
       });
 
       if (!response.ok) {
-        alert("Invalid credentials");
-        return;
+        throw new Error("Invalid credentials. Please try again.");
       }
 
       const data = await response.json();
 
-      // future use (JWT token etc)
-      console.log("Login Success:", data);
+      // Example: Save token for future authenticated requests
+      // localStorage.setItem("token", data.token);
 
-      alert("Login Successful");
-
-      // redirect after login
       navigate("/home");
-
-    } catch (error) {
-      console.error(error);
-      alert("Server error");
+      
+    } catch (err) {
+      setError(err.message || "Unable to connect to the server.");
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "60px" }}>
       
-      <h1>Login Page</h1>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px", width: "300px" }}>
+        <h2 style={{ textAlign: "center", fontSize: "30px", marginBottom: "10px" }}>
+          Login
+        </h2>
 
-      <form onSubmit={handleSubmit}>
+        {error && <div style={{ color: "red", textAlign: "center", fontWeight: "bold" }}>{error}</div>}
 
-        <div>
-          <label>Email: </label>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="email">Email: </label>
           <input
+            id="email"
             name="email"
             type="email"
             value={loginData.email}
             onChange={handleChange}
+            required
           />
         </div>
 
-        <div>
-          <label>Password: </label>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label htmlFor="password">Password: </label>
           <input
+            id="password"
             name="password"
             type="password"
             value={loginData.password}
             onChange={handleChange}
+            required
           />
         </div>
 
-        <button type="submit">Login</button>
+        <button 
+          type="submit" 
+          disabled={isLoading}
+            style={{ marginTop: "10px", width: "90px" ,padding: "4px", cursor: isLoading ? "not-allowed" : "pointer" , borderRadius : "40px", alignItems:"center", textAlign:"center", marginLeft:"100px"}}
+        >
+          {isLoading ? "Logging in..." : "Login"}
+        </button>
 
       </form>
     </div>
