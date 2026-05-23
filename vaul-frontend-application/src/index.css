@@ -1,10 +1,10 @@
-:root {
-  color: #22313d;
-  background: #7cb6e8;
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  --background: #5d7283;
+  :root {
+    color: #22313d;
+    background: #7cb6e8;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    --background: #5d7283;
   --text-color: #22313d;
   --muted-text: #566575;
   --surface-bg: #fafaf4;

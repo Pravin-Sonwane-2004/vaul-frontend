@@ -48,3 +48,10 @@
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.06);
 }
+.logout {
+  padding: 0.5rem 0.75rem;
+    border: 1px solid var(--header-border);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: aliceblue;
+}

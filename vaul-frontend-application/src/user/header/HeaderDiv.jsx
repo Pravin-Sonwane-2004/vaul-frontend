@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./headerDiv.css";
 import logo from "../../assets/images/Bank-Logo.png";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -9,6 +10,28 @@ const navItems = [
 ];
 
 export default function HeaderDiv() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // sync state with sessionStorage
+    setIsLoggedIn(sessionStorage.getItem("isLoggedIn") === "true");
+
+    const handleStorageChange = () => {
+      setIsLoggedIn(sessionStorage.getItem("isLoggedIn") === "true");
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
   return (
     <header className="header">
       <Link className="brand" to="/">
@@ -26,11 +49,19 @@ export default function HeaderDiv() {
         </ul>
       </nav>
 
-      <div className="auth-links">
-        <Link to="/login">Login</Link>
-        <Link className="primary-link" to="/register">
-          Register
-        </Link>
+      <div className="nav-links">
+        {isLoggedIn ? (
+          <button onClick={handleLogout} className="logout">
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+            <Link className="primary-link" to="/register">
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

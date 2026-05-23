@@ -6,6 +6,7 @@ import Register from "./user/public/Register";
 import Login from "./user/public/Login";
 import Contact from "./user/public/contact";
 import Features from "./user/public/Features";
+import GetStarted from "./user/get-started/GetStarted";
 
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/features" element={<Features />} />
         <Route path="/home" element={<Home/>} />
+        <Route path="/get-started" element={<GetStarted/>} />
       </Route>
       {/* Without Layout here will not be any layout */}
 

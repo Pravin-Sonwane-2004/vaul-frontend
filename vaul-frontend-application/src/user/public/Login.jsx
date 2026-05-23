@@ -7,7 +7,7 @@ export default function Login() {
 
   const [loginData, setLoginData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [error, setError] = useState("");
@@ -16,7 +16,7 @@ export default function Login() {
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -29,22 +29,23 @@ export default function Login() {
       const response = await fetch(API_ENDPOINTS.LOGIN, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(loginData),
       });
 
       if (!response.ok) {
         throw new Error("Invalid credentials. Please try again.");
       }
 
-      const data = await response.json();
+      await response.json();
 
-      // Example: Save token for future authenticated requests
-      // localStorage.setItem("token", data.token);
+      sessionStorage.setItem("isLoggedIn", "true");
+
+      // This triggers Header update
+      window.dispatchEvent(new Event("storage"));
 
       navigate("/home");
-      
     } catch (err) {
       setError(err.message || "Unable to connect to the server.");
     } finally {
@@ -53,17 +54,53 @@ export default function Login() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "60px" }}>
-      
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px", width: "300px" }}>
-        <h2 style={{ textAlign: "center", fontSize: "30px", marginBottom: "10px" }}>
+    <div
+      style={{
+        minHeight: "80vh",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          width: "320px",
+          display: "grid",
+          gap: "16px",
+          padding: "25px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            fontSize: "30px",
+            marginBottom: "5px",
+          }}
+        >
           Login
         </h2>
 
-        {error && <div style={{ color: "red", textAlign: "center", fontWeight: "bold" }}>{error}</div>}
+        {error && (
+          <div
+            style={{
+              color: "red",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {error}
+          </div>
+        )}
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label htmlFor="email">Email: </label>
+        <div
+          style={{
+            display: "grid",
+            gap: "6px",
+          }}
+        >
+          <label htmlFor="email">Email:</label>
           <input
             id="email"
             name="email"
@@ -71,11 +108,21 @@ export default function Login() {
             value={loginData.email}
             onChange={handleChange}
             required
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label htmlFor="password">Password: </label>
+        <div
+          style={{
+            display: "grid",
+            gap: "6px",
+          }}
+        >
+          <label htmlFor="password">Password:</label>
           <input
             id="password"
             name="password"
@@ -83,17 +130,29 @@ export default function Login() {
             value={loginData.password}
             onChange={handleChange}
             required
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={isLoading}
-            style={{ marginTop: "10px", width: "90px" ,padding: "4px", cursor: isLoading ? "not-allowed" : "pointer" , borderRadius : "40px", alignItems:"center", textAlign:"center", marginLeft:"100px"}}
+          style={{
+            justifySelf: "center",
+            marginTop: "10px",
+            width: "120px",
+            padding: "8px",
+            cursor: isLoading ? "not-allowed" : "pointer",
+            borderRadius: "40px",
+            border: "none",
+          }}
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
-
       </form>
     </div>
   );

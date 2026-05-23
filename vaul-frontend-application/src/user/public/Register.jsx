@@ -36,7 +36,7 @@ export default function Register() {
     }
 
     setIsLoading(true);
-
+    
     // 2. API Call with Try/Catch
     try {
       const userData = {
